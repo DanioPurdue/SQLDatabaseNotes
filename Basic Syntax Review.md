@@ -86,7 +86,7 @@ select min(price) as smallestPrice from products;
 
 ## SQL like operator
 
-like operator is used in a where clause to search for a specified pattern in a column
+like operator is used in a where clause to search for a specified pattern in a column **This is more like a regular expression**
 
 ```sql
 select column1, column2 from table_name where columnN like pattern;
@@ -135,3 +135,64 @@ joining on a specific attribute
 select Orders.orderID, Customers.name, orders.orderDate from orders inner join customers on orders.customerID = customers.customerID;
 ```
 
+## Group By
+
+```sql
+select count(customerID) country from customers group by (country) order by count(customerID) DESC;
+```
+
+order by and having are after the where, on the aggregate function
+
+Group by multiple columns: Group by multiple column, is say for example group by column1, column2 this means to place all the rows with same values of both the columns column1 and column2 in one group
+
+## SQL Exists Examples
+
+```sql
+select supplierName from suppliers where exists (select productName from products where supplierID = suppliers.suppliersID and price)
+```
+
+## Set Operations
+
+`r intersect s = r - (r - s)`
+
+## Division Operations
+
+![image-20190121123346665](DivisonExample.png)
+
+
+
+# Basic Concepts
+
+SQL database why you have different tables: remove redandency.
+
+## Subqueries
+
+在set operation的时候用
+
+Find all customers who have both an account and a loan at the bank.
+
+borrower table
+
+```sql
+select distinct customer-name from borrower where customer-name in (select customer-name from depositor);
+
+--Approach 2
+select distinct customer-name from borrower, customer where borrower.name = borrower.name;
+
+--In one but not the other
+select distinct customer-name from borrower where customer-name not in (select customer-name from depositor);
+```
+
+## Set Comparison
+
+```sql
+select branch-name from branch where assets > some (select assets from branch where branch-city='brooklyn');
+```
+
+## Except Statements
+
+The SQL **EXCEPT** clause/operator is used to combine two SELECT statements and returns rows from the first SELECT statement that are not returned by the second SELECT statement. This means EXCEPT returns only rows, which are not available in the second SELECT statement.
+
+![image-20190121132639750](ExceptExample.png)
+
+You want to ensure his branches is larger or equal to all the branches in the Brooklyn
